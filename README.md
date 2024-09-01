@@ -8,7 +8,7 @@ It caters to movie buffs, show enthusiasts, and anime aficionados by offering fu
 - Catalog your media collection: Efficiently scan directories for movies, shows, and anime, extracting metadata and allowing for user input of additional details.
 - Seamless data storage: Choose between storing your media information in flat files (CSV/JSON) or a relational database for scalability.
 - Effortless search and filter: Quickly find specific media within your collection using various criteria like title, genre, or release date.
-- Watchlist and progress tracking: Create and manage watchlists for upcoming content and track your watch progress for movies and shows (percentage watched/episode completed).
+- Watchlist and progress tracking: Create and manage your watchlist for upcoming content and track your watch progress for movies and shows (percentage watched/episode completed).
 
 ## Getting Started:
 
