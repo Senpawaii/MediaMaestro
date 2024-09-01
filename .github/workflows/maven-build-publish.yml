@@ -25,7 +25,7 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: cd backend && mvn -B package --file pom.xml
 
   publish-job:
      runs-on: ubuntu-latest
@@ -36,8 +36,8 @@ jobs:
        with:
          java-version: '21'
          distribution: 'temurin'
-     - run: mvn --batch-mode --update-snapshots verify
-     - run: mkdir staging && cp taget/*.jar stating
+     - run: cd backend && mvn --batch-mode --update-snapshots verify
+     - run: mkdir staging && cp target/*.jar stating
      - uses: actions/upload-artifact@v4
        with:
          name: Package
