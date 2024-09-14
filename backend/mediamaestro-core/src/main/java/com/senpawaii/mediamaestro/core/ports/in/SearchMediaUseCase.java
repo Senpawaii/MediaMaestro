@@ -1,6 +1,7 @@
 package com.senpawaii.mediamaestro.core.ports.in;
 
 import com.senpawaii.mediamaestro.core.domain.Media;
+import com.senpawaii.mediamaestro.core.domain.Movie;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,5 +9,5 @@ import java.util.Optional;
 public interface SearchMediaUseCase {
     List<Media> fetchAllMedia();
     Optional<Media> fetchMediaById(String id);
-    // Media createMedia(MediaRequest request);
+    <T extends Media> List<T> fetchAllMediaOfType(Class<T> mediaType);
 }
