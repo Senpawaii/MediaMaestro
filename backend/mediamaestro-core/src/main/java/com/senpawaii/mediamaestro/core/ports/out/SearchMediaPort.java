@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface SearchMediaPort {
     List<Media> findAll(); // Fetch all media entries
     Optional<Media> findById(String id); // Fetch media by ID
+    Media save(Media media);
 }
