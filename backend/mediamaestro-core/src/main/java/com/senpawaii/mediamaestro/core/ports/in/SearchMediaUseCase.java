@@ -1,7 +1,6 @@
 package com.senpawaii.mediamaestro.core.ports.in;
 
 import com.senpawaii.mediamaestro.core.domain.Media;
-import com.senpawaii.mediamaestro.core.domain.Movie;
 
 import java.util.List;
 import java.util.Optional;

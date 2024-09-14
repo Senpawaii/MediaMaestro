@@ -24,4 +24,9 @@ public class SearchMediaService implements SearchMediaUseCase {
     public Optional<Media> fetchMediaById(String id) {
         return Optional.empty();
     }
+
+    @Override
+    public <T extends Media> List<T> fetchAllMediaOfType(Class<T> mediaType) {
+        return List.of();
+    }
 }
