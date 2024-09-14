@@ -28,6 +28,7 @@
 	<modules>
 		<module>mediamaestro-api</module>
 		<module>mediamaestro-core</module>
+		<module>mediamaestro-adapters</module>
 	</modules>
 
 	<dependencyManagement>
@@ -40,6 +41,11 @@
 			<dependency>
 				<groupId>com.senpawaii.mediamaestro</groupId>
 				<artifactId>mediamaestro-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.senpawaii.mediamaestro</groupId>
+				<artifactId>mediamaestro-adapters</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
@@ -86,14 +92,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring-boot-maven-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>repackage</id>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
