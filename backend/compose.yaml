@@ -1,1 +1,29 @@
+version: '3.8'
+
 services:
+  app:
+    build:
+      context: .
+      dockerfile: mediamaestro-api/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/mediamaestro
+      - SPRING_DATASOURCE_USERNAME=yourUsername
+      - SPRING_DATASOURCE_PASSWORD=yourPassword
+
+  db:
+    image: postgres:16.4
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=mediamaestro
+      - POSTGRES_USER=yourUsername
+      - POSTGRES_PASSWORD=yourPassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
