@@ -12,7 +12,7 @@ env:
   JAVA_DISTRIBUTION: 'temurin'
 
 jobs:
-  build_and_test:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
