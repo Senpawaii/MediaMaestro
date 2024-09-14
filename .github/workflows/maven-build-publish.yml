@@ -19,7 +19,7 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
-          settings-path: ${{ github.workspace }} # location for the settings.xml file
+          settings-path: ${{ github.workspace }}
 
       - name: Build with Maven
         run: cd backend && mvn -B package --file pom.xml
@@ -38,8 +38,11 @@ jobs:
       # Run Maven to verify and build any additional artifacts
       - run: cd backend && mvn --batch-mode --update-snapshots verify
 
-      # Create staging directory and copy the JAR file to it
-      - run: mkdir backend/staging && cp backend/target/*.jar backend/staging
+      # Create staging directory and copy the JAR files
+      - name: Stage JAR files
+        run: |
+          mkdir -p backend/staging
+          cp backend/mediamaestro-api/target/*.jar backend/staging/
 
       # Upload the artifact
       - uses: actions/upload-artifact@v4
