@@ -1,4 +1,4 @@
-name: Java Maven Build & Publish Package
+name: Java Maven Multi-Module Build & Publish
 
 on:
   push:
@@ -7,17 +7,20 @@ on:
   pull_request:
     branches: [ "master" ]
 
-jobs:
-  build_test:
-    runs-on: ubuntu-latest
+env:
+  JAVA_VERSION: '21'
+  JAVA_DISTRIBUTION: 'temurin'
 
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 21
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
-          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
           cache: maven
           settings-path: ${{ github.workspace }}
 
@@ -31,26 +34,41 @@ jobs:
 
   publish-job:
     runs-on: ubuntu-latest
-    needs: build_test
-
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
         with:
-          java-version: '21'
-          distribution: 'temurin'
-
-      # Run Maven to verify and build any additional artifacts
-      - run: cd backend && mvn --batch-mode --update-snapshots verify
-
-      # Create staging directory and copy the JAR files
-      - name: Stage JAR files
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+      - name: Package artifacts
         run: |
-          mkdir -p backend/staging
-          cp backend/mediamaestro-api/target/*.jar backend/staging/
-
-      # Upload the artifact
-      - uses: actions/upload-artifact@v4
+          cd backend
+          mvn -B clean package -DskipTests
+          mkdir -p staging
+          find . -name '*.jar' -not -name '*-sources.jar' -not -name '*-javadoc.jar' -exec cp {} staging/ \;
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: Package
           path: backend/staging
+
+#  docker:
+#    needs: publish
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v3
+#      - name: Login to Docker Hub
+#        uses: docker/login-action@v3
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#      - name: Build and push
+#        uses: docker/build-push-action@v5
+#        with:
+#          context: .
+#          file: ./Dockerfile
+#          push: true
+#          tags: yourdockerhubusername/mediamaestro:latest
